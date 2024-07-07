@@ -1,0 +1,115 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  password      String
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Content {
+  id      Int    @id @default(autoincrement())
+  type    String
+  index   Int
+  content String
+  post    Post?  @relation(fields: [postId], references: [id])
+  postId  Int?
+
+  // @@fulltext([content])
+}
+
+model PageContent {
+  id      Int    @id @default(autoincrement())
+  type    String
+  content String
+  page    Page?  @relation(fields: [pageId], references: [id])
+  pageId  Int?
+
+  // @@fulltext([content])
+}
+
+model Post {
+  id        Int       @id @default(autoincrement())
+  title     String
+  mainImage String
+  content   Content[]
+  published Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Page {
+  id          Int           @id @default(autoincrement())
+  title       String
+  content     PageContent[]
+  path        String        @unique
+  mainNavLink MainNavLink[]
+  subNavLink  SubNavLink[]
+}
+
+model MainNavLink {
+  id       Int          @id @default(autoincrement())
+  title    String       @unique
+  subLinks SubNavLink[]
+  page     Page         @relation(fields: [pageId], references: [id])
+  pageId   Int
+}
+
+model SubNavLink {
+  id         Int          @id @default(autoincrement())
+  title      String
+  mainLink   MainNavLink? @relation(fields: [mainLinkId], references: [id])
+  mainLinkId Int?
+  page       Page         @relation(fields: [pageId], references: [id])
+  pageId     Int
+}

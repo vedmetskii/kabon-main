@@ -1,0 +1,27 @@
+version: '4'
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    hostname: nginx
+    depends_on:
+      - db
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+  
+  db:
+    image: postgres:latest
+    container_name: db
+    hostname: db
+    volumes:
+      - db:/var/lib/postgresql
+    env_file:
+      - .env
+  
+  # /
+
+
+volumes:
+  db:
