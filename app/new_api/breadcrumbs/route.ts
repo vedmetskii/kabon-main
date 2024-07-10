@@ -3,11 +3,21 @@ import {prisma} from "@/services/prisma";
 
 
 async function getTitle(path: string) {
-    const page = await prisma.page.findFirst({
-        where: {
-            path: path
-        }
-    })
+    let page;
+
+    if (path.includes("/news/")) {
+        page = await prisma.post.findFirst({
+            where: {
+                id: Number(path.slice(6, path.length)),
+            }
+        })
+    } else {
+        page = await prisma.page.findFirst({
+            where: {
+                path: path
+            }
+        })
+    }
 
     if (!page) {
         throw new Error("Page not found")
@@ -28,7 +38,6 @@ function generatePathArray(path: string) {
             tmp_path += "/"
         }
         tmp_path += `${partOfPath}`
-        console.log(tmp_path)
 
         return tmp_path
     })

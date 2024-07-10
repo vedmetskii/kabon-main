@@ -1,21 +1,13 @@
 import {siteConfig} from "@/config/site"
 
-class Params {
-    path: string | undefined
-    q: string | undefined
-
-    constructor({path, q}: {path: string | undefined, q: string | undefined}) {
-        this.path = path
-        this.q = q
-    }
-}
-
 export const fetchDataFromAPI = async (
     apiUrl: string,
     path: string | undefined = undefined,
-    q: string | undefined = undefined
+    q: string | undefined = undefined,
+    pageId: number | undefined = undefined,
+    maxPages: boolean = false
 ) => {
-    const url = new URL(`${siteConfig.proto}://${siteConfig.domain}${apiUrl}`);
+    const url = new URL(`${siteConfig.proto}://${siteConfig.domain}:${siteConfig.port}${apiUrl}`);
 
     if (path) {
         url.searchParams.set("path", path)
@@ -23,6 +15,14 @@ export const fetchDataFromAPI = async (
 
     if (q) {
         url.searchParams.set("q", q)
+    }
+
+    if (pageId) {
+        url.searchParams.set("pageId", String(pageId))
+    }
+
+    if (maxPages) {
+        url.searchParams.set("maxPages", String(maxPages))
     }
 
     const response = await fetch(url)
@@ -61,10 +61,24 @@ export const getBreadcrumbs = async ({path}: {path: string}): Promise<Breadcrumb
     )
 }
 
+type Content = {
+    id: number,
+    type: string,
+    content: string,
+}
+
 type Page = {
     id: number,
     path: string,
+    title: string,
+    content: Content[]
+}
 
+type Post = {
+    id: number,
+    title: string,
+    mainImage: string,
+    content: Content[]
 }
 
 export const getAllPages = async (): Promise<Page[]> => {
@@ -73,9 +87,24 @@ export const getAllPages = async (): Promise<Page[]> => {
     )
 }
 
-export const getPage = async ({path}: {path: string}): Promise<Page> => {
+export const getPage = async (path: string): Promise<Page> => {
     return fetchDataFromAPI(
         "/new_api/pages",
         path
     )
+}
+
+export const getPostsInPage = async ({pageId}: {pageId: number}): Promise<{ posts: Post[], maxPages: number }> => {
+    return fetchDataFromAPI(
+        "/new_api/posts",
+        "",
+        "",
+        pageId,
+    )
+}
+
+export const getSiteConfig = async (): Promise<SiteConfig> => {
+    const res = await fetchDataFromAPI("/new_api/site_config")
+    console.log(res)
+    return res
 }

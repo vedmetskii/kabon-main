@@ -1,36 +1,16 @@
-"use client"
-import {Button, Input, useDisclosure} from "@nextui-org/react";
+"use client";
+import {Button, Input} from "@nextui-org/react";
 import {EyeSlashFilledIcon} from "@/components/Icons/EyeSlashFilledIcon";
 import {EyeFilledIcon} from "@/components/Icons/EyeFilledIcon";
 import {useState} from "react";
-import {signIn} from "next-auth/react";
-import {useRouter} from "next/navigation";
-import {SignInModalError} from "@/components/NavBar/USettings/SignIn/SignInModalError";
 
-export function SignInFrom({callbackUrl}:{callbackUrl: string}) {
-    const {isOpen, onOpen, onOpenChange} = useDisclosure()
+export function SignInFrom({action}:{action: (formData: FormData) => void}) {
     const [isVisible, setIsVisible] = useState(false)
-    const router = useRouter()
-
 
     const toggleVisibility = () => setIsVisible(!isVisible);
 
-    async function signInUser(formData: FormData) {
-        const res = await signIn('credentials', {
-            user: formData.get('username'),
-            password: formData.get('password'),
-            redirect: false
-        })
-
-        if (res && !res.error) {
-            router.push(callbackUrl)
-        } else if (res && res.error == "CredentialsSignin") {
-            onOpen()
-        }
-    }
-
     return <>
-        <form className="" action={signInUser}>
+        <form className="" action={action}>
             <Input
                 isClearable
                 size="lg"
@@ -68,6 +48,5 @@ export function SignInFrom({callbackUrl}:{callbackUrl: string}) {
                 Submit
             </Button>
         </form>
-        <SignInModalError onOpenChange={onOpenChange} isOpen={isOpen} />
     </>
 }
