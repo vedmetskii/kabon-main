@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Breadcrumbs } from "./NavBar/Breadcrumbs";
 import { NavLinks } from "./NavBar/NavLinks";
 import { NavBarMenu } from "@/components/NavBar/NavBarMenu";
+import {UserSettings} from "@/components/NavBar/UserSettings";
 
 
 export function Navigation() {
@@ -25,9 +26,7 @@ export function Navigation() {
                 <NavLinks NavItem={NavbarItem}/>
             </NavbarContent>
             <NavbarContent justify="end">
-                <NavbarItem>
-                    <ThemeSwitcher />
-                </NavbarItem>
+                <UserSettings />
             </NavbarContent>
             <NavBarMenu/>
         </Navbar >

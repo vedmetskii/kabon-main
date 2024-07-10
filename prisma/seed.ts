@@ -1,48 +1,67 @@
-const Prisma = require('@prisma/client');
+import { PrismaClient } from "prisma/prisma-client"
 
-const prisma = new Prisma.PrismaClient();
+const prisma = new PrismaClient();
 
-async function main() {
-
-    const post = await prisma.post.create({
-        data: {
-            title: 'My first post',
-            mainImage: 'https://sun9-66.userapi.com/impg/aukOqghGkMVnkRqyVRnm3snzqrhTTjRXOIfS3Q/tmzTS0WOhlQ.jpg?size=1969x1969&quality=96&sign=5358b0e603206b364d75d8ab197d05b3&type=album',
-            published: true,
+async function isPageNotExist(path: string): Promise<boolean> {
+    const page = await prisma.page.findFirst({
+        where: {
+            path: path,
         }
-    });
-
-    const contentForPost = await prisma.content.create({
-        data: {
-            type: 'Header',
-            content: 'First post',
-            index: 1,
-            postId: post.id,
-        }
-    });
-
-    const mainPage = await prisma.page.create({data: {
-           title: 'Main page',
-           path: '/',
-       }
-    });
-
-    const contentForPage = await prisma.pageContent.create({
-        data: {
-            type: 'Header',
-            content: 'Main page',
-            pageId: mainPage.id,
-        }
-    
     })
 
-    const mainNavLink = await prisma.mainNavLink.create({
+    return !page;
+}
+
+async function createPage({path, title}: {path: string, title: string}){
+    return prisma.page.create({
         data: {
-            title: 'Main page',
-            pageId: mainPage.id,
-        }    
+            path: path,
+            title: title
+        }
     });
-   
+}
+
+
+async function main() {
+    let pathAndTitleOfRequiredPage = [
+        {
+            path: "/",
+            title: "Main Page",
+        },
+        {
+            title: "Sign Out",
+            path: "/user/signout"
+        },
+        {
+            title: "News",
+            path: "/news"
+        },
+        {
+            title: "User",
+            path: "/user"
+        },
+        {
+            title: "Sign In",
+            path: "/user/signin"
+        }
+    ]
+    let pages: {path: string, title: string}[] = []
+
+    for (const {path, title} of pathAndTitleOfRequiredPage) {
+        const pageIsNotExist = await isPageNotExist(path)
+        if (pageIsNotExist) {
+            pages.push({
+                path: path,
+                title: title,
+            })
+        }
+    }
+
+    const newPages = await Promise.all(pages.map(
+        async (page) => await createPage(page)
+    ))
+
+    console.log(newPages)
 }
 
 main()

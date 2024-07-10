@@ -19,11 +19,16 @@ async function getTitle(path: string) {
 function generatePathArray(path: string) {
     let tmp_path = ""
 
+    if (path == "/") {
+        return [path]
+    }
+
     return path.split("/").map((partOfPath) => {
         if (tmp_path.at(tmp_path.length-1) != "/") {
             tmp_path += "/"
         }
         tmp_path += `${partOfPath}`
+        console.log(tmp_path)
 
         return tmp_path
     })

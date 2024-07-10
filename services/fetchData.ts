@@ -12,16 +12,17 @@ class Params {
 
 export const fetchDataFromAPI = async (
     apiUrl: string,
-    queryParams: Params = {path: undefined, q: undefined}
+    path: string | undefined = undefined,
+    q: string | undefined = undefined
 ) => {
     const url = new URL(`${siteConfig.proto}://${siteConfig.domain}${apiUrl}`);
 
-    if (queryParams.path) {
-        url.searchParams.set("path", queryParams.path)
+    if (path) {
+        url.searchParams.set("path", path)
     }
 
-    if (queryParams.q) {
-        url.searchParams.set("q", queryParams.q)
+    if (q) {
+        url.searchParams.set("q", q)
     }
 
     const response = await fetch(url)
@@ -56,6 +57,25 @@ type Breadcrumbs = {
 export const getBreadcrumbs = async ({path}: {path: string}): Promise<Breadcrumbs[]> => {
     return fetchDataFromAPI(
         "/new_api/breadcrumbs",
-        new Params({path: path, q: undefined})
+        path,
+    )
+}
+
+type Page = {
+    id: number,
+    path: string,
+
+}
+
+export const getAllPages = async (): Promise<Page[]> => {
+    return fetchDataFromAPI(
+        "/new_api/pages"
+    )
+}
+
+export const getPage = async ({path}: {path: string}): Promise<Page> => {
+    return fetchDataFromAPI(
+        "/new_api/pages",
+        path
     )
 }

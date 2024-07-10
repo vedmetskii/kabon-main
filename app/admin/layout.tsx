@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 }
 
 export default function AdminLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-    return <AuthProvider>
+    return <AuthProvider roles={["admin"]}>
         <Navigation />
         <main className="mx-10 my-4">{children}</main>
     </AuthProvider>

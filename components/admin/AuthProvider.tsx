@@ -3,8 +3,8 @@
 import { useSession } from "next-auth/react"
 import { usePathname, useRouter } from "next/navigation"
 
-const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-    const {status} = useSession()
+const AuthProvider = ({ children, roles = [] }: { children: React.ReactNode, roles: string[] }) => {
+    const {status, data} = useSession()
     const router = useRouter()
     const pathname = usePathname()
 
@@ -16,7 +16,15 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         router.push(`/admin/auth/signin?callbackUrl=${pathname}`)
     }
 
+    if ((!data) || (!data.user) || (!data.user.name) || (isNotCurrentUser(data.user.name, roles))) {
+        return <h1>Not permissions</h1>
+    }
+
     return <>{children}</>
+}
+
+const isNotCurrentUser = (username: string, roles: string[]): boolean => {
+    return false
 }
 
 export { AuthProvider }

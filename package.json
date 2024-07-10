@@ -1,12 +1,13 @@
 {
   "name": "kabon-admin",
-  "version": "0.1.1-alfa",
+  "version": "0.1.2-alpha",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": "npx tsc prisma/seed.ts && node prisma/seed.js"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.7",
@@ -30,6 +31,6 @@
     "postcss": "^8",
     "prisma": "^5.12.1",
     "tailwindcss": "^3.4.3",
-    "typescript": "^5"
+    "typescript": "^5.5.3"
   }
 }

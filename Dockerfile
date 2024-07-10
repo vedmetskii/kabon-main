@@ -12,4 +12,4 @@ RUN npm run build
 
 EXPOSE 3000
 
-CMD "npx prisma migrate deploy", "node prisma/seed.js", "npm run start"
+CMD "npx prisma migrate deploy", "npm run seed", "npm run start"

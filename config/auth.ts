@@ -12,8 +12,8 @@ const config: AuthOptions = {
         strategy: "jwt"
     },
     pages: {
-        signIn: '/admin/auth/signin',
-        signOut: '/admin/auth/signout',
+        signIn: '/user/signin',
+        signOut: '/user/signout',
         error: '/admin/auth/error', // Error code passed in query string as ?error=
         // verifyRequest: '/auth/verify-request', // (used for check email message)
     },
