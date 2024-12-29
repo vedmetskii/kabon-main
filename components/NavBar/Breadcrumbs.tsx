@@ -11,18 +11,20 @@ import useSWR from "swr";
 export function Breadcrumbs() {
     const path = usePathname()
     const {
-        data: items,
+        data,
         isLoading
     } = useSWR({path: path, index: "breadcrumbs"}, getBreadcrumbs);
 
+
     if (isLoading) {
         return <p>Loading...</p>
-    } else if (!items) {
+    }
+    if (!data) {
         return <p>Error</p>
     }
 
     return <NextUIBreadcrumbs className="mx-5 my-3">
-        {items.map((element) => {
+        {data.map((element) => {
             return <NextUIBreadcrumbItem
                 key={element.title}
                 href={element.path}

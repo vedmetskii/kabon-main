@@ -1,6 +1,0 @@
-projectKey=kabon
-serverUrl=http://127.0.0.1:9000
-serverVersion=10.5.1.90531
-dashboardUrl=http://127.0.0.1:9000/dashboard?id=kabon
-ceTaskId=9e4f88e3-90d2-4bdc-8ce8-5b23712d1936
-ceTaskUrl=http://127.0.0.1:9000/api/ce/task?id=9e4f88e3-90d2-4bdc-8ce8-5b23712d1936

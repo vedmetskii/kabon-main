@@ -95,22 +95,27 @@ async function getNavLinksWithPath(
 
 
 export async function GET(request: NextRequest) {
-    const navLinks = await prisma.mainNavLink.findMany();
+    try {
+        const navLinks = await prisma.mainNavLink.findMany();
 
-    const searchParams = request.nextUrl.searchParams;
+        const searchParams = request.nextUrl.searchParams;
 
-    let titlesOfLinks: MainLink[] = getTitlesOfLinks(navLinks.map((link) => {
-        return new Link({...link})
-    }))
-
-    if (!searchParams.get('withoutSubs')) {
-        titlesOfLinks = await Promise.all(titlesOfLinks.map(async (link) => {
-            await link.addSubs()
-            return link
+        let titlesOfLinks: MainLink[] = getTitlesOfLinks(navLinks.map((link) => {
+            return new Link({...link})
         }))
+
+        if (!searchParams.get('withoutSubs')) {
+            titlesOfLinks = await Promise.all(titlesOfLinks.map(async (link) => {
+                await link.addSubs()
+                return link
+            }))
+        }
+
+        const response = await getNavLinksWithPath(titlesOfLinks);
+
+        return NextResponse.json(response)
     }
-
-    const response = await getNavLinksWithPath(titlesOfLinks);
-
-    return NextResponse.json(JSON.stringify(response))
+    catch (e) {
+        return NextResponse.json({ error: e }, { status: 500 })
+    }
 }

@@ -49,17 +49,23 @@ export async function GET(request: NextRequest) {
     const path = searchParams.get("path")
 
     if (!path) {
-        return NextResponse.error()
+        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
     }
 
     const pathArray = generatePathArray(path)
 
-    const response = await Promise.all(pathArray.map(async (path) => {
-        return {
-            title: await getTitle(path),
-            path: path
-        }
-    }))
 
-    return NextResponse.json(JSON.stringify(response))
+    try {
+        const response = await Promise.all(pathArray.map(async (path) => {
+            return {
+                title: await getTitle(path),
+                path: path
+            }
+        }))
+
+        return NextResponse.json(response)
+    }
+    catch (e) {
+        return NextResponse.json({ error: `Internal Server Error: ${e}` }, { status: 500 })
+    }
 }

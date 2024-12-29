@@ -22,15 +22,15 @@ export function NavLinks(
 ) {
     const router = useRouter();
 
-    const { data: navLinks, isLoading } = useSWR("newNavLinks", getNavLinks)
+    const { data, isLoading } = useSWR("newNavLinks", getNavLinks)
 
     if (isLoading) {
         return <h1>Loading...</h1>
-    } else if (!navLinks) {
+    } else if (!data) {
         return <h1>Error 404... NavLinks not found</h1>
     }
 
-    return <>{navLinks.map((navLink) => (
+    return <>{data.map((navLink) => (
         <div key={`${navLink.id}-${NavItem}`}>
             {navLink.subLinks[1] ? (
                 <Dropdown>

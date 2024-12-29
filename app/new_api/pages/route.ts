@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
         });
 
         if (!page) {
-            return NextResponse.error();
+            return NextResponse.json({ error: 'Page not found!' }, { status: 404 });
         }
 
         const contentOnPage = await prisma.pageContent.findMany({
@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
             }
         })
 
-        return NextResponse.json(JSON.stringify({content: contentOnPage, ...page}));
+        return NextResponse.json({content: contentOnPage, ...page});
     }
 
     const pages = await prisma.page.findMany();
@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
         return {content: content, ...page}
     }))
 
-    return NextResponse.json(JSON.stringify(newPages));
+    return NextResponse.json(newPages);
 }
 
 export async function POST(request: NextRequest) {

@@ -1,6 +1,5 @@
 "use client"
 import {useDisclosure} from "@nextui-org/react";
-import {signIn} from "next-auth/react";
 import {useRouter} from "next/navigation";
 import {SignInModalError} from "@/components/NavBar/USettings/SignIn/SignInModalError";
 import {SignInFrom} from "@/components/NavBar/USettings/SignIn/SignInForm";
@@ -10,11 +9,6 @@ export function SignIn({callbackUrl}:{callbackUrl: string}) {
     const router = useRouter()
 
     async function signInUser(formData: FormData) {
-        const res = await signIn('credentials', {
-            user: formData.get('username'),
-            password: formData.get('password'),
-            redirect: false
-        })
 
         if (res && !res.error) {
             router.push(callbackUrl)
