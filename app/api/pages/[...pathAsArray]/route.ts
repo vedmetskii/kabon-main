@@ -2,12 +2,18 @@ import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 type Props = {
-    params: {
+    params: Promise<{
         pathAsArray: string[]
-    }
+    }>
 }
 
-export async function GET(req: NextRequest, { params: { pathAsArray } }: Props) {
+export async function GET(req: NextRequest, props: Props) {
+    const params = await props.params;
+
+    const {
+        pathAsArray
+    } = params;
+
     const prisma = new PrismaClient()
     const path = `/${pathAsArray.join('/')}`
     const page = await prisma.page.findUnique({ where: { path: path } })

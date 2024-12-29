@@ -12,7 +12,8 @@ type Props = {
 }
 
 
-export default async function PostPage({ params }: Readonly<Props>) {
+export default async function PostPage(props: Readonly<Props>) {
+    const params = await props.params;
     const [postData, status] = await getPost(params.id)
     if (status == 404) {
         return 404

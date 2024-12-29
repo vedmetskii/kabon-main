@@ -11,9 +11,8 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 
 
-export default async function NewsPage(
-    {searchParams}: {searchParams: { pageId: string | undefined }}
-) {
+export default async function NewsPage(props: {searchParams: Promise<{ pageId: string | undefined }>}) {
+    const searchParams = await props.searchParams;
     let pageId = Number(searchParams.pageId)
     if (isNaN(pageId)) {
         pageId = 1

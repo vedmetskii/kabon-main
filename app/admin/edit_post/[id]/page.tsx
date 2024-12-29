@@ -2,10 +2,16 @@
 
 import { EditContent } from "@/components/admin/EditContent";
 import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/react";
-import { FormEventHandler, useEffect, useMemo, useState } from "react";
+import { FormEventHandler, useEffect, useMemo, useState, use } from "react";
 import { siteConfig } from "@/config/site"
 
-export default function CreateNewPost({ params: { id } }: Readonly<{ params: { id: string } }>) {
+export default function CreateNewPost(props: Readonly<{ params: { id: string } }>) {
+    const params = use(props.params);
+
+    const {
+        id
+    } = params;
+
     const postId = id
     const apiUrl = siteConfig.apiUrl
     const [title, setTitle] = useState("")
@@ -24,11 +30,11 @@ export default function CreateNewPost({ params: { id } }: Readonly<{ params: { i
                 setContent(post.content)
             })
     }, [apiUrl, postId, setTitle, setMainImage])
-    
+
     const isInvalidTitle = useMemo(() => {
         return title == ""
     }, [title])
-    
+
     const isInvalidMainImage = useMemo(() => {
         return mainImage == ""
     }, [mainImage])

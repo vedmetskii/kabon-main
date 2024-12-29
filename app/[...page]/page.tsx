@@ -10,7 +10,8 @@ type Props = {
     params: Params,
 }
 
-export async function generateMetadata({ params }: Props,): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+    const params = await props.params;
     let pathToPage = "/pages/"
     for (let i = 0; i < params.page.length - 1; i++) {
         pathToPage += params.page[i] + "/";
@@ -23,7 +24,8 @@ export async function generateMetadata({ params }: Props,): Promise<Metadata> {
     }
 }
 
-export default async function CustomPage({ params }: Readonly<Props>) {
+export default async function CustomPage(props: Readonly<Props>) {
+    const params = await props.params;
     let pathToPage = "/pages/"
     for (let i = 0; i < params.page.length - 1; i++) {
         pathToPage += params.page[i] + "/";

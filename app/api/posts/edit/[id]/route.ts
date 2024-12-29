@@ -11,12 +11,18 @@ type RequestData = {
 }
 
 type Props = {
-    params: {
+    params: Promise<{
         id: string
-    }
+    }>
 }
 
-export async function POST(request: NextRequest, { params: { id } }: Props) {
+export async function POST(request: NextRequest, props: Props) {
+    const params = await props.params;
+
+    const {
+        id
+    } = params;
+
     const prisma = new PrismaClient()
     const dataJson = await request.json()
     const data: RequestData = JSON.parse(dataJson)
