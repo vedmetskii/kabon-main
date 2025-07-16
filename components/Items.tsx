@@ -1,3 +1,4 @@
+import { JSX } from "react"
 import { Handler } from "./Items/Handler"
 import { Image } from "./Items/Image"
 import { Text } from "./Items/Text"

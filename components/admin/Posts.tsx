@@ -31,7 +31,7 @@ const Posts = () => {
             page={pageId}
             color="secondary"
             onChange={(page) => { setPageId(page) }}
-            className="gap-2 grid grid-cols-1 sm:grid-cols-4 py-4 gap-4 flex-auto"
+            className="grid grid-cols-1 sm:grid-cols-4 py-4 gap-4 flex-auto"
         />
     </>
 }

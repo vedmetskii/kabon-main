@@ -1,7 +1,7 @@
 "use client"
 import {Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@nextui-org/react";
 
-export function SignInModalError({isOpen, onOpenChangeAction}: {isOpen: boolean, onOpenChangeAction: () => void}) {
+export function SignUpModalError({isOpen, onOpenChangeAction}: {isOpen: boolean, onOpenChangeAction: () => void}) {
     return <Modal isOpen={isOpen} onOpenChange={onOpenChangeAction}>
         <ModalContent>
             {(onClose) => (

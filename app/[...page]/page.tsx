@@ -7,7 +7,7 @@ type Params = {
 }
 
 type Props = {
-    params: Params,
+    params: Promise<Params>,
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
@@ -24,7 +24,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     }
 }
 
-export default async function CustomPage(props: Readonly<Props>) {
+export default async function CustomPage(props: Props) {
     const params = await props.params;
     let pathToPage = "/pages/"
     for (let i = 0; i < params.page.length - 1; i++) {

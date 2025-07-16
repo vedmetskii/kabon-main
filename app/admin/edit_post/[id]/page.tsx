@@ -5,7 +5,11 @@ import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader
 import { FormEventHandler, useEffect, useMemo, useState, use } from "react";
 import { siteConfig } from "@/config/site"
 
-export default function CreateNewPost(props: Readonly<{ params: { id: string } }>) {
+type Props = {
+    params: Promise<{ id: string }>
+}
+
+export default function CreateNewPost(props: Props) {
     const params = use(props.params);
 
     const {

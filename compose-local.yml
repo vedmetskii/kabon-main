@@ -1,15 +1,11 @@
 services:
-  db_local:
+  db:
     image: postgres
     container_name: db
     hostname: db
     ports:
       - 5432:5432
     volumes:
-      - local_db:/var/lib/postgresql
+      - ./.db:/var/lib/postgresql/data
     env_file:
       - .env
-
-
-volumes:
-  local_db:

@@ -3,7 +3,6 @@
 import { Button, Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem, NavbarMenuToggle } from "@nextui-org/react";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 import { useState } from "react";
-import { SignOutButton } from "./SignOutButton";
 import { useRouter } from "next/navigation";
 
 
@@ -42,9 +41,6 @@ export function Navigation() {
             ))}
         </NavbarContent>
         <NavbarContent justify="end">
-            <NavbarItem>
-                <SignOutButton />
-            </NavbarItem>
             <NavbarItem>
                 <ThemeSwitcher />
             </NavbarItem>

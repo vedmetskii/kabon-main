@@ -1,7 +1,5 @@
-import { config } from "@/config/auth";
 import { siteConfig } from "@/config/site";
 import { prisma } from "@/services/prisma";
-import { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
 
 async function getPostContent(postId: number) {
@@ -80,30 +78,30 @@ export async function GET(request: NextRequest) {
 	});
 }
 
-export async function POST() {
-	console.log(1);
-	const session = await getServerSession(config);
-	console.log(2);
-	const allowedRoles = ["admin"];
+// export async function POST() {
+// 	console.log(1);
+// 	const session = await getServerSession(config);
+// 	console.log(2);
+// 	const allowedRoles = ["admin"];
 
-	console.log(session);
+// 	console.log(session);
 
-	if (
-		!session ||
-		!session.user ||
-		!session.user.role ||
-		!allowedRoles.includes(session.user.role)
-	) {
-		return NextResponse.json(
-			{ error: "Internal Server Error" },
-			{ status: 500 },
-		);
-	}
-	console.log(3);
+// 	if (
+// 		!session ||
+// 		!session.user ||
+// 		!session.user.role ||
+// 		!allowedRoles.includes(session.user.role)
+// 	) {
+// 		return NextResponse.json(
+// 			{ error: "Internal Server Error" },
+// 			{ status: 500 },
+// 		);
+// 	}
+// 	console.log(3);
 
-	const data = request.body;
+// 	const data = request.body;
 
-	console.log(data);
+// 	console.log(data);
 
-	return NextResponse.json({ status: "ok" });
-}
+// 	return NextResponse.json({ status: "ok" });
+// }

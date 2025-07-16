@@ -5,6 +5,7 @@ const nextConfig = {
         NEXT_PUBLIC_DOMAIN: "192.168.1.121",
         NEXT_PUBLIC_PORT: "3000",
     },
+    output: "standalone",
     images: {
         remotePatterns: [
             {

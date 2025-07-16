@@ -3,11 +3,11 @@
 import {Button} from "@nextui-org/react";
 import {usePathname, useRouter} from "next/navigation";
 
-export function SingInButton() {
+export function SignInButton() {
     const router = useRouter()
     const path = usePathname()
     return <Button
-        onClick={() => router.push(`/user/signin?callbackUrl=${path}`)}
+        onPress={() => router.push(`/user/signin?callbackUrl=${path}`)}
         variant="flat"
     >Sing In</Button>
 }

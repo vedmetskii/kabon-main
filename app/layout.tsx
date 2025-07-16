@@ -9,16 +9,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body>
-        <Providers>
-            <Navigation />
-            <main className="mx-10 my-4">
-                {children}
-            </main>
-        </Providers>
-      </body>
+    return <html lang="en">
+        <body>
+            <Providers>
+                <Navigation />
+                <main className="mx-10 my-4">
+                        {children}
+                </main>
+            </Providers>
+        </body>
     </html>
-  );
 }

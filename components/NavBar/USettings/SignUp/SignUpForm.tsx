@@ -3,11 +3,9 @@ import {Button, Input} from "@nextui-org/react";
 import {EyeSlashFilledIcon} from "@/components/Icons/EyeSlashFilledIcon";
 import {EyeFilledIcon} from "@/components/Icons/EyeFilledIcon";
 import {useState} from "react";
-import { useRouter } from "next/navigation";
 
-export function SignInFrom({action, callbackUrl}:{action: (formData: FormData) => void, callbackUrl: string}) {
+export function SignUpFrom({action}:{action: (formData: FormData) => void}) {
     const [isVisible, setIsVisible] = useState(false)
-    const router = useRouter();
 
     const toggleVisibility = () => setIsVisible(!isVisible);
 
@@ -19,6 +17,18 @@ export function SignInFrom({action, callbackUrl}:{action: (formData: FormData) =
                 type="email"
                 name="email"
                 label="Email"
+                placeholder="Enter your email"
+                defaultValue=""
+                className="p-4 w-4/5 justify-center ml-auto mr-auto"
+                onClear={() => console.log("Input cleared")}
+                required
+            />
+            <Input
+                isClearable
+                size="lg"
+                type="name"
+                name="name"
+                label="Name"
                 placeholder="Enter your email"
                 defaultValue=""
                 className="p-4 w-4/5 justify-center ml-auto mr-auto"
@@ -49,11 +59,6 @@ export function SignInFrom({action, callbackUrl}:{action: (formData: FormData) =
             >
                 Submit
             </Button>
-            <Button
-                onPress={() => router.push(`/user/signup?callbackUrl=${callbackUrl}`)}
-                variant="flat"
-                className="p-6 w-4/5 justify-center mr-auto ml-auto flex"
-            >Sing Up</Button>
         </form>
     </>
 }

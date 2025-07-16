@@ -8,11 +8,11 @@ type Params = {
 }
 
 type Props = {
-    params: Params,
+    params: Promise<Params>,
 }
 
 
-export default async function PostPage(props: Readonly<Props>) {
+export default async function PostPage(props: Props) {
     const params = await props.params;
     const [postData, status] = await getPost(params.id)
     if (status == 404) {

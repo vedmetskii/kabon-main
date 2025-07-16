@@ -2,23 +2,27 @@
 
 import {ThemeSwitcher} from "@/components/ThemeSwitcher";
 import {NavbarItem} from "@nextui-org/react";
-import {SingInButton} from "@/components/NavBar/USettings/SignIn/SingInButton";
-import {useSession} from "next-auth/react";
+import {SignInButton} from "@/components/NavBar/USettings/SignIn/SignInButton";
 import {UserAccount} from "@/components/NavBar/USettings/UserAccount";
+import { useSession } from "@/utils/auth-client";
 
 export function UserSettings() {
-    const {data, status} = useSession();
-
-    if (status == "loading") {
+    const {data, error, isPending} = useSession();
+    if (isPending) {
         return <NavbarItem>
             <p>Loading...</p>
         </NavbarItem>
     }
 
-    if ((status == "unauthenticated") || !data) {
+    if (error) {
+        console.log(error);
+        return
+    }
+
+    if (!data) {
         return <NavbarItem>
             <ThemeSwitcher />
-            <SingInButton />
+            <SignInButton />
         </NavbarItem>
     }
 

@@ -1,6 +1,5 @@
 "use client";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle } from "@nextui-org/react";
-import { ThemeSwitcher } from "./ThemeSwitcher";
 import { useState } from "react";
 import { Breadcrumbs } from "./NavBar/Breadcrumbs";
 import { NavLinks } from "./NavBar/NavLinks";

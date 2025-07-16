@@ -46,7 +46,7 @@ export function NavLinks(
                             <DropdownItem key={`${subLink.title}-${subLink.id}`}>
                                 <Button
                                     variant="light"
-                                    onClick={() => router.push(subLink.path)}
+                                    onPress={() => router.push(subLink.path)}
                                 >{subLink.title}</Button>
                             </DropdownItem>
                         ))}
@@ -56,7 +56,7 @@ export function NavLinks(
                 <NavItem>
                     <Button
                         variant="light"
-                        onClick={() => router.push(navLink.path)}
+                        onPress={() => router.push(navLink.path)}
                     >{navLink.title}</Button>
                 </NavItem>
             )}

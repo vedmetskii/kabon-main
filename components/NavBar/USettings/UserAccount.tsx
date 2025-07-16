@@ -8,18 +8,18 @@ import {
 	DropdownTrigger,
 } from "@nextui-org/react";
 import { User } from "@nextui-org/user";
-import { useSession } from "next-auth/react";
+import { useSession } from "@/utils/auth-client";
 import { useRouter } from "next/navigation";
 
 export function UserAccount() {
-	const { data, status } = useSession();
+	const { data, error, isPending } = useSession();
 	const router = useRouter();
 
-	if (status == "loading") {
+	if (isPending) {
 		return <p>Loading...</p>;
 	}
 
-	if (status == "unauthenticated" || !data || !data.user) {
+	if (error || !data || !data.user) {
 		return <>Error</>;
 	}
 
@@ -31,7 +31,7 @@ export function UserAccount() {
 				<Button variant="light" size="lg">
 					<User
 						name={user.name ?? "unknown"}
-						description={user.role}
+						description={user.email}
 						avatarProps={{
 							showFallback: true,
 							src: user.image ?? "",
@@ -44,7 +44,7 @@ export function UserAccount() {
 				<DropdownItem
 					key="settings"
 					variant="flat"
-					onClick={() => router.push("/user/settings")}
+					onPress={() => router.push("/user/settings")}
 				>
 					Settings
 				</DropdownItem>
@@ -53,7 +53,7 @@ export function UserAccount() {
 					variant="solid"
 					color="danger"
 					className="text-danger"
-					onClick={() => router.push("/user/signout")}
+					onPress={() => router.push("/user/signout")}
 				>
 					Sing Out
 				</DropdownItem>

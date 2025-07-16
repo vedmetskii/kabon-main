@@ -1,7 +1,15 @@
 "use client"
-import { signOut } from "next-auth/react"
+import { signOut } from "@/utils/auth-client"
+import { useRouter } from "next/navigation"
 
 export function SignOut() {
-    signOut({redirect: true, callbackUrl: '/'})
+    const router = useRouter()
+    signOut({
+        fetchOptions: {
+            onSuccess: () => {
+                router.push("/")
+            }
+        }
+    })
     return <div>Sing Out</div>
 }
