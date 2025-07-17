@@ -1,27 +1,27 @@
-import { getPost } from "@/services/posts"
-import { Image } from '@/components/Items/Image'
-import { Items } from "@/components/Items"
-import { Handler } from "@/components/Items/Handler"
+import { getPost } from "@/services/posts";
+import { Image } from "@/components/Items/Image";
+import { Items } from "@/components/Items";
+import { Handler } from "@/components/Items/Handler";
 
 type Params = {
-    id: string
-}
+  id: string;
+};
 
 type Props = {
-    params: Promise<Params>,
-}
+  params: Promise<Params>;
+};
 
-
-export default async function PostPage(props: Props) {
-    const params = await props.params;
-    const [postData, status] = await getPost(params.id)
-    if (status == 404) {
-        return 404
-    }
-    // console.log(postData)
-    return <>
-        <Handler>{postData.title}</Handler>
-        <Image src={postData.mainImage} alt="" />
-        <Items items={postData.content}></Items>
+export default async function PostPage({ params }: Readonly<Props>) {
+  const [postData, status] = await getPost(params.id);
+  if (status == 404) {
+    return 404;
+  }
+  // console.log(postData)
+  return (
+    <>
+      <Handler>{postData.title}</Handler>
+      <Image src={postData.mainImage} alt="" />
+      <Items items={postData.content}></Items>
     </>
+  );
 }
